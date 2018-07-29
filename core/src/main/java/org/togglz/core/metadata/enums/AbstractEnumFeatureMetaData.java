@@ -20,7 +20,7 @@ import org.togglz.core.util.annotations.AbstractAnnotationsProcessor;
 /**
 *
 * Implementation of {@link FeatureMetaData} that looks for annotations like {@link Label}, {@link EnabledByDefault} and
-* {@link DefaultActivationStrategy} on feature enums.
+* {@link DefaultActivationStrategy} on enums.
 *
 * @author Christian Kaltepoth
 *
