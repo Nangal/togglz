@@ -1,23 +1,20 @@
 package org.togglz.core.manager;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
 
-import org.togglz.core.GenericEnumFeature;
 import org.togglz.core.Feature;
+import org.togglz.core.GenericEnumFeature;
 import org.togglz.core.metadata.FeatureMetaData;
 import org.togglz.core.metadata.enums.GenericEnumFeatureMetaData;
 import org.togglz.core.spi.FeatureProvider;
 
-public class GenericEnumBasedFeatureProvider implements FeatureProvider {
-
-    private final Map<String, FeatureMetaData> metaDataCache = new HashMap<>();
-    private final Map<Enum<?>, Feature> features = new LinkedHashMap<>();
+/**
+ * Implementation of {@link FeatureProvider} that uses generic java enum
+ * (not implementing {@link Feature}) to represent features.
+ *
+ * @author Rui Figueira
+ */
+public class GenericEnumBasedFeatureProvider extends AbstractEnumBasedFeatureProvider<Enum<?>> {
 
     public GenericEnumBasedFeatureProvider() {
         // nothing to do
@@ -41,27 +38,13 @@ public class GenericEnumBasedFeatureProvider implements FeatureProvider {
         return this;
     }
 
-    private void addFeatures(Collection<? extends Enum<?>> newEnumValues) {
-        for (Enum<?> newEnumValue : newEnumValues) {
-            Feature newFeature = new GenericEnumFeature(newEnumValue);
-            if (metaDataCache.put(newFeature.name(), new GenericEnumFeatureMetaData(newEnumValue, newFeature)) != null) {
-                throw new IllegalStateException("The feature " + newFeature + " has already been added");
-            };
-            features.put(newEnumValue, newFeature);
-        }
+    @Override
+    protected Feature featureFor(Enum<?> enumValue) {
+        return new GenericEnumFeature(enumValue);
     }
 
     @Override
-    public Set<Feature> getFeatures() {
-        return new LinkedHashSet<>(features.values());
-    }
-
-    @Override
-    public FeatureMetaData getMetaData(Feature feature) {
-        return metaDataCache.get(feature.name());
-    }
-
-    public FeatureMetaData getMetaData(Enum<?> enumValue) {
-        return getMetaData(features.get(enumValue));
+    protected FeatureMetaData featureMetaDataFor(Enum<?> enumValue, Feature feature) {
+        return new GenericEnumFeatureMetaData(enumValue, feature);
     }
 }
