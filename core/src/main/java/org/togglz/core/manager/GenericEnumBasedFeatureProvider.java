@@ -39,7 +39,7 @@ public class GenericEnumBasedFeatureProvider extends AbstractEnumBasedFeaturePro
     }
 
     @Override
-    protected Feature featureFor(Enum<?> enumValue) {
+    protected Feature createFeatureFor(Enum<?> enumValue) {
         return new GenericEnumFeature(enumValue);
     }
 

@@ -39,7 +39,7 @@ public abstract class AbstractEnumBasedFeatureProvider<T> implements FeatureProv
 
     protected void addFeatures(Collection<? extends T> newEnumValues) {
         for (T newEnumValue : newEnumValues) {
-            Feature newFeature = featureFor(newEnumValue);
+            Feature newFeature = createFeatureFor(newEnumValue);
             if (metaDataCache.put(newFeature.name(), featureMetaDataFor(newEnumValue, newFeature)) != null) {
                 throw new IllegalStateException("The feature " + newFeature + " has already been added");
             };
@@ -47,6 +47,11 @@ public abstract class AbstractEnumBasedFeatureProvider<T> implements FeatureProv
         }
     }
 
-    protected abstract Feature featureFor(T enumValue);
+    @Override
+    public Feature featureFor(Enum<?> enumValue) {
+        return features.get(enumValue);
+    }
+
+    protected abstract Feature createFeatureFor(T enumValue);
     protected abstract FeatureMetaData featureMetaDataFor(T enumValue, Feature feature);
 }

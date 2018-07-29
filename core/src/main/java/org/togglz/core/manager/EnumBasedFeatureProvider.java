@@ -36,7 +36,7 @@ public class EnumBasedFeatureProvider extends AbstractEnumBasedFeatureProvider<F
     }
 
     @Override
-    protected Feature featureFor(Feature enumValue) {
+    protected Feature createFeatureFor(Feature enumValue) {
         return enumValue;
     }
 
