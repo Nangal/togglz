@@ -13,6 +13,10 @@ public class GenericEnumFeature implements Feature {
         return enumValue.name();
     }
 
+    public Enum<?> getEnumValue() {
+        return enumValue;
+    }
+
     @Override
     public int hashCode() {
         return enumValue.hashCode();
@@ -22,4 +26,5 @@ public class GenericEnumFeature implements Feature {
     public boolean equals(Object obj) {
         return obj instanceof GenericEnumFeature && enumValue == ((GenericEnumFeature) obj).enumValue;
     }
+
 }
